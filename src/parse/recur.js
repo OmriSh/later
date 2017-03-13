@@ -41,6 +41,13 @@ later.parse.recur = function () {
     curName = cur[name];
 
     if (every) {
+
+      //http://stackoverflow.com/questions/8181949
+      //for example: every=50 will make values=[0,50], this is a bug
+      if((name === 'm' || name === 's') && ((max+1) % every) !== 0){
+        throw new Error('Unable to parse schedule, invalid cron unit.');
+      }
+
       values = [];
       for (i = min; i <= max; i += every) {
         values.push(i);
